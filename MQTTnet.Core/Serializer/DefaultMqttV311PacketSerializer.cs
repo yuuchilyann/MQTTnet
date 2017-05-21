@@ -276,7 +276,7 @@ namespace MQTTnet.Core.Serializer
 
             var protocolName = await reader.ReadRemainingDataAsync(4);
 
-            if (Encoding.UTF8.GetString(protocolName, 0, protocolName.Length) != "MQTT")
+            if (!(Encoding.UTF8.GetString(protocolName, 0, protocolName.Length) == "MQTT" || Encoding.UTF8.GetString(protocolName, 0, protocolName.Length) == "MQIs"))
             {
                 throw new MqttProtocolViolationException("Protocol name is not 'MQTT'.");
             }
@@ -364,7 +364,7 @@ namespace MQTTnet.Core.Serializer
             }
         }
 
-        private static readonly byte[] MqttPrefix = Encoding.UTF8.GetBytes("MQTT");
+        private static readonly byte[] MqttPrefix = Encoding.UTF8.GetBytes("MQIs");
 
         private Task SerializeAsync(MqttConnectPacket packet, IMqttCommunicationChannel destination)
         {
